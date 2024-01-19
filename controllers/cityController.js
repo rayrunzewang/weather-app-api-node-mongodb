@@ -3,11 +3,22 @@ const router = express.Router();
 const City = require('../models/City');
 
 // Get all citys
-router.get('/citys', async (req, res) => {
+router.get('/cities', async (req, res) => {
   try {
     const citys = await City.find();
     console.log(citys)
     res.json(citys);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.post('/city', async (req, res) => {
+  try {
+    console.log(req.body)
+
+    const city = await City.create(req.body);
+    res.status(201).json({message: 'City Added'});
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
