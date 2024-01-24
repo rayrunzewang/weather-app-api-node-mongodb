@@ -2,23 +2,27 @@ const express = require('express');
 const router = express.Router();
 const City = require('../models/City');
 
-// Get all citys
+// Get all cities
 router.get('/cities', async (req, res) => {
   try {
-    const citys = await City.find();
-    console.log(citys)
-    res.json(citys);
+    const cities = await City.find();
+    console.log(cities)
+    res.json(cities);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
 router.post('/city', async (req, res) => {
-  try {
-    console.log(req.body)
 
+  const data = new City({
+    cityName: req.body.cityName,
+    countryName: req.body.countryName
+  })
+  try {
     const city = await City.create(req.body);
-    res.status(201).json({message: 'City Added'});
+    const dataToSave = await data.save(); // 不是必须的 Model.create()方法已经包括了save()
+    res.status(200).json(dataToSave)
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
