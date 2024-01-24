@@ -28,6 +28,23 @@ router.post('/city', async (req, res) => {
   }
 });
 
+router.delete('/city/:id', async (req, res) => {
+  try {
+    const deleteCity = await City.findById(req.params.id);
+    if (!deleteCity) {
+      return res.status(404).json({ error: 'Item not found', message: 'Item not found' });
+    }
+    const result = await City.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({ error: 'Item not found', message: 'Item not found' });
+    }
+    console.log(result)
+    res.status(202).json({result, message: "item deleted"})
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error', message: 'Error Deleting' });
+  }
+});
+
 // Get a single product by ID
 // router.get('/citys/:id', async (req, res) => {
 //   try {
