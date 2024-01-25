@@ -21,10 +21,10 @@ router.post('/city', async (req, res) => {
   })
   try {
     const city = await City.create(req.body);
-    const dataToSave = await data.save(); // 不是必须的 Model.create()方法已经包括了save()
-    res.status(200).json(dataToSave)
+    // const dataToSave = await data.save();  不是必须的 Model.create()方法已经包括了save()
+    res.status(200).json(city)
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    // res.status(500).json({ error});
   }
 });
 
@@ -39,7 +39,7 @@ router.delete('/city/:id', async (req, res) => {
       return res.status(404).json({ error: 'Item not found', message: 'Item not found' });
     }
     console.log(result)
-    res.status(202).json({result, message: "item deleted"})
+    res.status(204).json({result, message: "item deleted"})
   } catch (error) {
     res.status(500).json({ error: 'Internal server error', message: 'Error Deleting' });
   }
